@@ -5,12 +5,18 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dbUrl = process.env.DB_URL;
 const port = process.env.PORT;
+const cors = require('cors');
+const morgan = require('morgan')
 // const multer = require('multer');
 // const jwt = require("jsonwebtoken");
 // const session = require('express-session');
 // const MongoDBStore = require('connect-mongodb-session')(session);
-// var cors = require('cors');
-// app.use(cors())
+/******************************** */
+app.use(morgan('dev'))
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
+}));
 /********************************************************************************* */
 // const storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
@@ -45,16 +51,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 /********************************************************************************* */
 
-// const productRoutes = require('./routes/product');
-// const supplierRoutes = require('./routes/supplier');
-// const adminRoutes = require('./routes/admin');
-// const userRoutes = require('./routes/user');
-// const billRoutes = require('./routes/bill');
-// app.use('/products', productRoutes);
-// app.use('/supplier', supplierRoutes);
-// app.use('/admin', adminRoutes);
-// app.use('/user', userRoutes);
-// app.use('/bill', billRoutes);
+const userRoutes = require("./routes/user");
+app.use("/user", userRoutes);
 /********************************************************************************* */
 mongoose.connect(dbUrl)
     .then(resu => {

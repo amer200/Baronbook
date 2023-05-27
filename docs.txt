@@ -1,0 +1,27 @@
+/**************************user*******************************/
+1)signup
+url= http://localhost:5000/user/signup
+method = post
+body{
+    "name": "",
+    "email": "",
+    "password": "",
+    "gender": "male or female",
+    "day": "",
+    "month": "june",
+    "year": ""
+}
+/***********
+2)login
+url = http://localhost:5000/user/login
+method = post
+body
+{
+    "email": "",
+    "password": ""
+}
+response
+{
+    "msg": "ok",
+    "token": "" ///"the token is expire after 24h"///
+}
