@@ -7,7 +7,7 @@ const dbUrl = process.env.DB_URL;
 const port = process.env.PORT;
 const cors = require('cors');
 const morgan = require('morgan')
-// const multer = require('multer');
+const multer = require('multer');
 // const jwt = require("jsonwebtoken");
 // const session = require('express-session');
 // const MongoDBStore = require('connect-mongodb-session')(session);
@@ -18,22 +18,19 @@ app.use(cors({
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 /********************************************************************************* */
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 'public/uploads/')
-//     },
-//     filename: function (req, file, cb) {
-//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + '.' + file.originalname;
-//         cb(null, file.fieldname + '-' + uniqueSuffix)
-//     }
-// });
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/')
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + '.' + file.originalname;
+        cb(null, file.fieldname + '-' + uniqueSuffix)
+    }
+});
 
 /********************************************************************************* */
-// const upload = multer({ storage: storage });
-// app.post('/admin/add-new-category', upload.single('img'));
-// app.post("/products/add-img/:id", upload.array('imgs'));
-// app.post("/products/edit-prod/:pid", upload.array('imgs'));
-// app.post("/products/edit-categ/:id", upload.single('img'));
+const upload = multer({ storage: storage });
+app.post('/admin/add-main-categ', upload.single('img'));
 /********************************************************************************** */
 // const store = new MongoDBStore({
 //     uri: dbUrl,
@@ -52,7 +49,9 @@ app.use(bodyParser.json());
 /********************************************************************************* */
 
 const userRoutes = require("./routes/user");
+const adminRouters = require("./routes/admin");
 app.use("/user", userRoutes);
+app.use("/admin", adminRouters);
 /********************************************************************************* */
 mongoose.connect(dbUrl)
     .then(resu => {

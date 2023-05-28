@@ -25,3 +25,51 @@ response
     "msg": "ok",
     "token": "" ///"the token is expire after 24h"///
 }
+/*******************admin********************************/
+1)login 
+url = http://localhost:5000/admin/login
+method = post
+body{
+    "email": "admin@admin.com",
+    "password": "123"
+}
+response{
+    "msg": "ok",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODUzNjg3MjMsImRhdGEiOnsiaWQiOiI2NDcyMWQxYzgzNmY0MWJkYzA1NjY4MzQiLCJuYW1lIjoiYWRtaW4iLCJyb2xsZSI6ImFkbWluIn0sImlhdCI6MTY4NTI4MjMyM30.1K0cVBlBvjKkGedRvglO7RXlHXnnTf_AZe-vyiQvo9E"
+}
+/***********
+2)add main categ
+url = http://localhost:5000/admin/add-main-categ
+method = post
+body{
+    name: "" required,
+    img: file opitional
+}
+response{
+    "msg": "ok",
+    "data": {
+        "name": "test1",
+        "img": "public/uploads/img-1685285611010-822046951.baronbook-logo (1).png",
+        "books": [],
+        "subcateg": [],
+        "_id": "64736aeb38583e07bc5d5f7a",
+        "__v": 0
+    }
+}
+/********
+3)add sub categ
+url= http://localhost:5000/admin/add-sub-categ
+method= post
+body{
+    "name": "subtest1"
+}
+response
+{
+    "msg": "ok",
+    "data": {
+        "name": "subtest1",
+        "books": [],
+        "_id": "64736a7338583e07bc5d5f77",
+        "__v": 0
+    }
+}
