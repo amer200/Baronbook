@@ -86,31 +86,54 @@ exports.addMainCateg = (req, res) => {
         })
 }
 
+// using promises
 exports.addSubCateg = (req, res) => {
-    const name = req.body.name;
+    const { name, mainCateg } = req.body;
+
     if (!name) {
         return res.status(400).json({
             msg: "name is required"
         })
     }
-    Subcateg.findOne({ name: name })
-        .then(sub => {
-            if (sub) {
+    if (!mainCateg) {
+        return res.status(400).json({
+            msg: "mainCateg is required"
+        })
+    }
+
+    Maincateg.findOne({ name: mainCateg })
+        .then(main => {
+            if (!main) {
                 return res.status(400).json({
-                    msg: "this name is already used"
+                    msg: "this main category doesn't exist"
                 })
             } else {
-                const newSub = new Subcateg({
-                    name: name,
-                    books: []
-                })
-                newSub.save()
-                    .then(s => {
-                        res.status(200).json({
-                            msg: "ok",
-                            data: s
+                main.subcateg.forEach(sub => {
+                    if (sub.name == name) {
+                        return res.status(400).json({ error: "this subCategory already exist " })
+                    } else {
+                        const newSubCateg = new Subcateg({
+                            name,
+                            mainCateg,
+                            books: []
                         })
-                    })
+
+                        main.subcateg.push(newSubCateg._id)
+                        main.save()
+                            .then(m => {
+                                console.log(m)
+                                return null
+                            })
+
+                        newSubCateg.save()
+                            .then(s => {
+                                return res.status(200).json({
+                                    msg: "ok",
+                                    data: s
+                                })
+                            })
+                    }
+                })
             }
         })
         .catch(err => {
@@ -121,25 +144,106 @@ exports.addSubCateg = (req, res) => {
             })
         })
 }
-exports.addSubToMain = async (req, res) => {
-    const mainId = req.body.mainId;
-    const subIds = req.body.subIds;
-    Maincateg.findById(mainId)
-        .then(m => {
-            m.subcateg.push(...subIds)
-            return m.save()
-        })
-        .then(m => {
-            res.status(200).json({
-                msg: "ok",
-                data: m
-            })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                msg: "server error",
-                error: err.message
-            })
-        })
-}
+
+// #region using async await
+// exports.addSubCateg = async (req, res) => {
+//     try {
+//         const { name, mainCateg } = req.body;
+
+//         if (!name) {
+//             res.status(400).send({ error: "name is required" })
+//         }
+//         if (!mainCateg) {
+//             res.status(400).send({ error: "mainCateg is required" })
+//         }
+
+//         const mainCategory = await Maincateg.findOne({ name: mainCateg })
+
+//         if (!mainCategory) {
+//             res.status(400).send({
+//                 error: "this main category doesn't exist"
+//             })
+//         } else {
+//             mainCategory.subcateg.forEach(sub => {
+//                 if (sub.name == name) {
+//                     res.status(400).send({ error: "this subCategory already exist " })
+//                 } else {
+//                     const newSubCateg = new Subcateg({
+//                         name,
+//                         mainCateg,
+//                         books: []
+//                     })
+//                 }
+//             })
+//         }
+
+//         await newSubCateg.save();
+
+//         res.status(200).send({ newSubCateg })
+
+//     } catch (error) {
+//         res.status(400).send(error)
+//     }
+// }
+// #endregion using async await
+
+
+
+// exports.addSubCateg = (req, res) => {
+//     const name = req.body.name;
+//     if (!name) {
+//         return res.status(400).json({
+//             msg: "name is required"
+//         })
+//     }
+//     Subcateg.findOne({ name: name })
+//         .then(sub => {
+//             if (sub) {
+//                 return res.status(400).json({
+//                     msg: "this name is already used"
+//                 })
+//             } else {
+//                 const newSub = new Subcateg({
+//                     name: name,
+//                     books: []
+//                 })
+//                 newSub.save()
+//                     .then(s => {
+//                         res.status(200).json({
+//                             msg: "ok",
+//                             data: s
+//                         })
+//                     })
+//             }
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(500).json({
+//                 msg: "server error",
+//                 error: err.message
+//             })
+//         })
+// }
+
+// exports.addSubToMain = async (req, res) => {
+//     const mainId = req.body.mainId;
+//     const subIds = req.body.subIds;
+//     Maincateg.findById(mainId)
+//         .then(m => {
+//             m.subcateg.push(...subIds)
+//             return m.save()
+//         })
+//         .then(m => {
+//             res.status(200).json({
+//                 msg: "ok",
+//                 data: m
+//             })
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(500).json({
+//                 msg: "server error",
+//                 error: err.message
+//             })
+//         })
+// }
