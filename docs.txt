@@ -73,3 +73,55 @@ response
         "__v": 0
     }
 }
+/***************
+3)add-sub-to-main
+url = http://localhost:5000/admin/add-sub-to-main
+method = post
+body{
+    "mainId": "647365a40b806492bac96abf",
+    "subIds":["647602c1e0ad29a9cc5b48ef", "6476417ce0ad29a9cc5b48fe"]
+}
+/**********************************main*************************/
+1)get all main categs
+url = http://localhost:5000/all-main-categs
+method = get (token is not required)
+response{
+           {
+            "_id": "64774d8a5878ebb9eb661a6b",
+            "name": "\"test3\"",
+            "img": "public/uploads/img-1685540234632-34012827.baronbook-logo (1).png",
+            "books": [],
+            "subcateg": [],
+            "__v": 0
+        },
+        {
+            "_id": "64774dcd5878ebb9eb661a6e",
+            "name": "test",
+            "img": "public/uploads/img-1685540301507-861951186.baronbook-logo (1).png",
+            "books": [],
+            "subcateg": [],
+            "__v": 0
+        }
+    ]
+}
+/*************
+2)get all sub categs
+url = http://localhost:5000/all-main-categs
+method = get (token is not required)
+response{
+    "data": [
+        {
+            "_id": "64736a7338583e07bc5d5f77",
+            "name": "subtest1",
+            "books": [],
+            "__v": 0
+        },
+        {
+            "_id": "647602c1e0ad29a9cc5b48ef",
+            "name": "subcateg1",
+            "books": [],
+            "__v": 0
+        }
+        ]
+}
+/**********

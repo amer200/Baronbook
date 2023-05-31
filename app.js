@@ -50,6 +50,8 @@ app.use(bodyParser.json());
 
 const userRoutes = require("./routes/user");
 const adminRouters = require("./routes/admin");
+const mainRouters = require("./routes/main");
+app.use("/", mainRouters);
 app.use("/user", userRoutes);
 app.use("/admin", adminRouters);
 /********************************************************************************* */

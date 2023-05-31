@@ -3,7 +3,6 @@ const Maincateg = require("../models/maincateg");
 const Subcateg = require("../models/subcateg");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const subcateg = require("../models/subcateg");
 exports.logIn = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -86,6 +85,7 @@ exports.addMainCateg = (req, res) => {
             })
         })
 }
+
 exports.addSubCateg = (req, res) => {
     const name = req.body.name;
     if (!name) {
@@ -112,6 +112,28 @@ exports.addSubCateg = (req, res) => {
                         })
                     })
             }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                msg: "server error",
+                error: err.message
+            })
+        })
+}
+exports.addSubToMain = async (req, res) => {
+    const mainId = req.body.mainId;
+    const subIds = req.body.subIds;
+    Maincateg.findById(mainId)
+        .then(m => {
+            m.subcateg.push(...subIds)
+            return m.save()
+        })
+        .then(m => {
+            res.status(200).json({
+                msg: "ok",
+                data: m
+            })
         })
         .catch(err => {
             console.log(err)
