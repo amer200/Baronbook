@@ -106,7 +106,7 @@ response{
 }
 /*************
 2)get all sub categs
-url = http://localhost:5000/all-main-categs
+url = http://localhost:5000/all-sub-categs
 method = get (token is not required)
 response{
     "data": [
