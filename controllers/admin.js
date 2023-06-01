@@ -85,65 +85,103 @@ exports.addMainCateg = (req, res) => {
             })
         })
 }
-
-// using promises
-exports.addSubCateg = (req, res) => {
-    const { name, mainCateg } = req.body;
-
+exports.addSubCateg = async (req, res) => {
+    const name = req.body.name;
+    const mainCategName = req.body.mainCateg;
     if (!name) {
         return res.status(400).json({
             msg: "name is required"
         })
     }
-    if (!mainCateg) {
+    if (!mainCategName) {
         return res.status(400).json({
             msg: "mainCateg is required"
         })
     }
-
-    Maincateg.findOne({ name: mainCateg })
-        .then(main => {
-            if (!main) {
-                return res.status(400).json({
-                    msg: "this main category doesn't exist"
-                })
-            } else {
-                main.subcateg.forEach(sub => {
-                    if (sub.name == name) {
-                        return res.status(400).json({ error: "this subCategory already exist " })
-                    } else {
-                        const newSubCateg = new Subcateg({
-                            name,
-                            mainCateg,
-                            books: []
-                        })
-
-                        main.subcateg.push(newSubCateg._id)
-                        main.save()
-                            .then(m => {
-                                console.log(m)
-                                return null
-                            })
-
-                        newSubCateg.save()
-                            .then(s => {
-                                return res.status(200).json({
-                                    msg: "ok",
-                                    data: s
-                                })
-                            })
-                    }
-                })
-            }
+    const mainCateg = await Maincateg.findOne({ name: mainCategName }).populate("subcateg")
+    if (!mainCateg) {
+        return res.status(400).json({
+            msg: "this main category doesn't exist"
         })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                msg: "server error",
-                error: err.message
-            })
-        })
+    }
+    const isSubExist = mainCateg.subcateg.filter(s => {
+        return s.name == name
+    })
+    if (isSubExist[0]) {
+        return res.status(400).send({ error: "this subCategory already exist " })
+    }
+    const newSubCateg = new Subcateg({
+        name: name,
+        // mainCateg:  
+        books: []
+    })
+    await newSubCateg.save()
+    const m = await Maincateg.findById(mainCateg._id);
+    m.subcateg.push(newSubCateg._id);
+    await m.save()
+    return res.status(200).json({
+        msg: "ok",
+        data: newSubCateg
+    })
 }
+// using promises
+// exports.addSubCateg = (req, res) => {
+//     const { name, mainCateg } = req.body;
+
+//     if (!name) {
+//         return res.status(400).json({
+//             msg: "name is required"
+//         })
+//     }
+//     if (!mainCateg) {
+//         return res.status(400).json({
+//             msg: "mainCateg is required"
+//         })
+//     }
+
+//     Maincateg.findOne({ name: mainCateg })
+//         .then(main => {
+//             if (!main) {
+//                 return res.status(400).json({
+//                     msg: "this main category doesn't exist"
+//                 })
+//             } else {
+//                 main.subcateg.forEach(sub => {
+//                     if (sub.name == name) {
+//                         return res.status(400).json({ error: "this subCategory already exist " })
+//                     } else {
+//                         const newSubCateg = new Subcateg({
+//                             name,
+//                             mainCateg,
+//                             books: []
+//                         })
+
+//                         main.subcateg.push(newSubCateg._id)
+//                         main.save()
+//                             .then(m => {
+//                                 console.log(m)
+//                                 return null
+//                             })
+
+//                         newSubCateg.save()
+//                             .then(s => {
+//                                 return res.status(200).json({
+//                                     msg: "ok",
+//                                     data: s
+//                                 })
+//                             })
+//                     }
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(500).json({
+//                 msg: "server error",
+//                 error: err.message
+//             })
+//         })
+// }
 
 // #region using async await
 // exports.addSubCateg = async (req, res) => {
