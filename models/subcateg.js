@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const subcategSchema = mongoose.Schema({
     name: String,
-    mainCategs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Maincateg' }],
+    // mainCateg: String,
     books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
