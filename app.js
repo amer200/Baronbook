@@ -31,6 +31,11 @@ const storage = multer.diskStorage({
 /********************************************************************************* */
 const upload = multer({ storage: storage });
 app.post('/admin/add-main-categ', upload.single('img'));
+app.post('/user/add-new-book', upload.fields([{
+    name: 'img', maxCount: 1
+}, {
+    name: 'book', maxCount: 1
+}]))
 /********************************************************************************** */
 // const store = new MongoDBStore({
 //     uri: dbUrl,

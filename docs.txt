@@ -25,6 +25,24 @@ response
     "msg": "ok",
     "token": "" ///"the token is expire after 24h"///
 }
+/*******************
+3) add-new-book
+url = http://localhost:5000/user/add-new-book
+method = post
+body{
+        "title": string,
+        "description": string,
+        "isauthor": Number (0, 1),
+        subcategId: "647a1c9d8519511eefa476f5",
+        "lang": String,
+        "authorname": String,
+        "img": file,
+        "book": file,
+        "pageno": int,
+        "publishinghouse": String,
+        "releasedate": date ("year-month-day"),
+        "isbn": String,
+}
 /*******************admin********************************/
 1)login 
 url = http://localhost:5000/admin/login
@@ -61,15 +79,18 @@ response{
 url= http://localhost:5000/admin/add-sub-categ
 method= post
 body{
-    "name": "subtest1"
+    "name": "subtest1",
+    "mainIds": ["",""]
 }
 response
 {
-    "msg": "ok",
     "data": {
-        "name": "subtest1",
+        "name": "subtest5",
+        "mainCategs": [
+            "647365a40b806492bac96abf"
+        ],
         "books": [],
-        "_id": "64736a7338583e07bc5d5f77",
+        "_id": "647a1c9d8519511eefa476f5",
         "__v": 0
     }
 }

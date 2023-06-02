@@ -1,6 +1,8 @@
 const User = require("../models/user");
+const Book = require("../models/books");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const { date } = require("joi");
 const salt = 10;
 exports.signUp = async (req, res) => {
     try {
@@ -55,7 +57,7 @@ exports.logIn = (req, res) => {
                     }
                     const token = jwt.sign({
                         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-                        data: user ,
+                        data: user,
                     }, process.env.ACCESS_TOKEN);
                     res.status(200).json({
                         msg: "ok",
@@ -77,6 +79,48 @@ exports.logIn = (req, res) => {
             res.status(500).json({
                 msg: "server error",
                 error: err.message
+            })
+        })
+}
+exports.addNewBook = (req, res) => {
+    const title = req.body.title;
+    const description = req.body.description;
+    const isauthor = req.body.isauthor;
+    const userId = req.user.id;
+    const subcategId = req.body.subcategId;
+    const lang = req.body.lang;
+    const authorname = req.body.authorname
+    const img = req.files.img[0].path;
+    const book = req.files.book[0].path;
+    const pageno = req.body.pageno;
+    const publishinghouse = req.body.publishinghouse;
+    const releasedate = req.body.releasedate;
+    const isbn = req.body.isbn;
+    const newBook = new Book({
+        title: title,
+        description: description,
+        isauthor: isauthor,
+        user: userId,
+        subcateg: subcategId,
+        lang: lang,
+        authorname: authorname,
+        img: img,
+        book: book,
+        pageno: pageno,
+        publishinghouse: publishinghouse,
+        releasedate: new Date(releasedate),
+        isbn: isbn
+    })
+    newBook.save()
+        .then(b => {
+            res.status(200).json({
+                data: b
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
             })
         })
 }
