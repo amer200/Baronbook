@@ -43,6 +43,13 @@ body{
         "releasedate": date ("year-month-day"),
         "isbn": String,
 }
+/**********
+4) get user's books
+url = http://localhost:5000/user/get-user-books
+method = get
+response{
+    data: []
+}
 /*******************admin********************************/
 1)login 
 url = http://localhost:5000/admin/login
@@ -151,4 +158,18 @@ url = http://localhost:5000/get-subs-by-main/{mainid}
 method = get
 response{
     data: []
+}
+/***************
+4) get books bu subcateg
+url = http://localhost:5000/get-books-by-sub/{subId}
+method = get
+response{
+    data: []
+}
+/***************
+5)get book by id
+url = http://localhost:5000/get-book-by-id/:bId
+method = get
+response{
+    data: {}
 }

@@ -124,3 +124,18 @@ exports.addNewBook = (req, res) => {
             })
         })
 }
+exports.getBooksByUser = (req, res) => {
+    const uId = req.user.id;
+    Book.find({ user: uId })
+        .then(b => {
+            res.status(200).json({
+                data: b
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+}
