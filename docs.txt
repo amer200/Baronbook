@@ -146,3 +146,9 @@ response{
         ]
 }
 /**********
+3)get subs by main
+url = http://localhost:5000/get-subs-by-main/{mainid}
+method = get
+response{
+    data: []
+}
