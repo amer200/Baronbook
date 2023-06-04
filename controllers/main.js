@@ -6,8 +6,6 @@ const Subcateg = require("../models/subcateg");
 /***categs */
 exports.getAllMainCategs = (req, res) => {
     Maincateg.find()
-        .populate("subcateg")
-        .populate("books")
         .then(m => {
             res.status(200).json({
                 data: m
