@@ -173,3 +173,10 @@ method = get
 response{
     data: {}
 }
+/**************
+6) get books by mainCateg
+url = http://localhost:5000/get-books-by-main/{mainid}
+method = get
+response{
+    data: []
+}
