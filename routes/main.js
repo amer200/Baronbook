@@ -6,4 +6,5 @@ routes.get("/all-sub-categs", mainController.getAllSubCategs);
 routes.get("/get-subs-by-main/:mainId", mainController.getSubsByMain);
 routes.get("/get-books-by-sub/:subId", mainController.getBooksBySub);
 routes.get("/get-book-by-id/:bId", mainController.getBookById);
+routes.get("/get-books-by-main/:mainId", mainController.getBooksByMain);
 module.exports = routes;

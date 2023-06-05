@@ -2,6 +2,7 @@ const Book = require("../models/books");
 const User = require("../models/user");
 const Maincateg = require("../models/maincateg");
 const Subcateg = require("../models/subcateg");
+const subcateg = require("../models/subcateg");
 
 /***categs */
 exports.getAllMainCategs = (req, res) => {
@@ -86,5 +87,37 @@ exports.getBookById = (req, res) => {
             res.status(500).json({
                 error: err
             })
+        })
+}
+exports.getBooksByMain = (req, res) => {
+    const mainId = req.params.mainId;
+    let mySubs = [];
+    Subcateg.find()
+        .then(subs => {
+            subs.forEach(s => {
+                if (s.mainCateg.includes(mainId)) {
+                    mySubs.push(s._id)
+                }
+            })
+            return mySubs
+        })
+        .then(mySubs => {
+            Book.find()
+                .then(books => {
+                    let myBooks = [];
+                    books.forEach(b => {
+                        mySubs.forEach(s => {
+                            if (b.subcateg.toString() == s.toString()) {
+                                myBooks.push(b)
+                            }
+                        })
+                    })
+                    res.status(200).json({
+                        data: myBooks
+                    })
+                })
+        })
+        .catch(err => {
+            console.log(err)
         })
 }
