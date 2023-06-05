@@ -87,16 +87,15 @@ exports.addSubCateg = async (req, res) => {
     try {
         const name = req.body.name;
         const mainIds = req.body.mainIds;
-        const isSub = await Subcateg.findOne({ name: name }).populate("mainCateg");
-        if (isSub.mainCateg == mainIds) {
+        const isSub = await Subcateg.findOne({ name: name });
+        if (isSub) {
             return res.status(400).json({
-                error: "This subCategory already exists in this mainCategory"
+                error: "This subCategory already exists"
             })
         }
         const newSub = new Subcateg({
             name: name,
             mainCateg: mainIds,
-            books: []
         })
         await newSub.save();
         return res.status(200).json({
