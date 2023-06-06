@@ -25,19 +25,6 @@ response
     "msg": "ok",
     "token": "" ///"the token is expire after 24h"///
 }
-/************
-3)edit user data
-url = http://localhost:5000/user/edit-user-data
-method = POST
-body{
-    "name": "",
-    "email": "",
-    "password": "",
-    "gender": "male or female",
-    "day": "",
-    "month": "june",
-    "year": ""
-}
 /*******************
 3) add-new-book
 url = http://localhost:5000/user/add-new-book
@@ -115,13 +102,12 @@ response
     }
 }
 /***************
-3)edit mainCateg 
-url = http://localhost:5000/admin/edit-main-categ
+3)add-sub-to-main
+url = http://localhost:5000/admin/add-sub-to-main
 method = post
 body{
-    mainId: "" required
-    name: "" required,
-    img: file opitional
+    "mainId": "647365a40b806492bac96abf",
+    "subIds":["647602c1e0ad29a9cc5b48ef", "6476417ce0ad29a9cc5b48fe"]
 }
 /**********************************main*************************/
 1)get all main categs
@@ -190,13 +176,6 @@ response{
 /**************
 6) get books by mainCateg
 url = http://localhost:5000/get-books-by-main/{mainid}
-method = get
-response{
-    data: []
-}
-/**************
-7) get all books
-url = http://localhost:5000/all-books
 method = get
 response{
     data: []

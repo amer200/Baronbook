@@ -31,6 +31,7 @@ const storage = multer.diskStorage({
 /********************************************************************************* */
 const upload = multer({ storage: storage });
 app.post('/admin/add-main-categ', upload.single('img'));
+app.post('/admin/edit-main-categ', upload.single('img'));
 app.post('/user/add-new-book', upload.fields([{
     name: 'img', maxCount: 1
 }, {

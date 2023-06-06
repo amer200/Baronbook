@@ -2,7 +2,6 @@ const User = require("../models/user");
 const Book = require("../models/books");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const { date } = require("joi");
 const salt = 10;
 exports.signUp = async (req, res) => {
     try {
@@ -83,6 +82,47 @@ exports.logIn = (req, res) => {
             })
         })
 }
+exports.editUserData = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const name = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
+        const gender = req.body.gender;
+        const birthdate = {
+            day: req.body.day,
+            month: req.body.month,
+            year: req.body.year
+        }
+        const myUser = await User.findById(userId);
+        const userByMail = await User.findOne({ email: email });
+        if (userByMail) {
+            if (userByMail._id !== myUser._id) {
+                return res.status(400).json({
+                    error: "this email is already exist"
+                })
+            }
+        }
+        myUser.name = name;
+        myUser.email = email;
+        myUser.password = password;
+        myUser.gender = gender;
+        myUser.birthdate = birthdate;
+        myUser.save()
+            .then(u => {
+                res.status(200).json({
+                    msg: "ok"
+                })
+            })
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({
+            msg: "server error",
+            error: err.message
+        })
+    }
+}
 exports.addNewBook = (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
@@ -114,6 +154,7 @@ exports.addNewBook = (req, res) => {
     })
     newBook.save()
         .then(b => {
+            console.log(b)
             res.status(200).json({
                 data: b
             })

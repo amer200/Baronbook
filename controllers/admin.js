@@ -108,6 +108,36 @@ exports.addSubCateg = async (req, res) => {
         })
     }
 }
+exports.editMainCateg = async (req, res) => {
+    try {
+        console.log(req.body)
+        const name = req.body.name;
+        const img = req.file;
+        const id = req.body.id;
+        const myMain = await Maincateg.findById(id);
+        if (myMain.name !== name) {
+            const isNameUsed = await Maincateg.findOne({ name: name });
+            if (isNameUsed) {
+                return res.status(400).json({
+                    error: "this name is exist before"
+                })
+            }
+            myMain.name = name
+        }
+        if (img) {
+            myMain.img = img.path
+        }
+        await myMain.save()
+        return res.status(200).json({
+            data: myMain
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    }
+}
 /**************************************************************************************************** */
 // using promises
 // exports.addSubCateg = (req, res) => {

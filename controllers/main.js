@@ -59,6 +59,21 @@ exports.getSubsByMain = async (req, res) => {
         })
     }
 }
+exports.getAllBooks = (req, res) => {
+    Book.find()
+        .populate("subcateg user")
+        .then(books => {
+            res.status(200).json({
+                data: books
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+}
 exports.getBooksBySub = (req, res) => {
     const subId = req.params.subId;
     Book.find({ subcateg: subId })
