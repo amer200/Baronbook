@@ -20,8 +20,41 @@ exports.getAllMainCategs = (req, res) => {
             })
         })
 }
+exports.getMainCategById = (req, res) => {
+    const id = req.params.id;
+    Maincateg.findByIdI(id)
+        .then(m => {
+            res.status(200).json({
+                data: m
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                msg: "server error",
+                error: err.message
+            })
+        })
+}
 exports.getAllSubCategs = (req, res) => {
     Subcateg.find()
+        .then(s => {
+            res.status(200).json({
+                data: s
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                msg: "server error",
+                error: err.message
+            })
+        })
+}
+exports.getSubCategById = (req, res) => {
+    const id = req.params.id;
+    Subcateg.findById(id)
+        .populate("mainCateg")
         .then(s => {
             res.status(200).json({
                 data: s

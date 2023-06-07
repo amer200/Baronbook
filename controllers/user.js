@@ -82,6 +82,22 @@ exports.logIn = (req, res) => {
             })
         })
 }
+exports.getUserData = (req, res) => {
+    const id = req.user.id;
+    User.findById(id)
+        .then(u => {
+            res.status(200).json({
+                data: u
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                msg: "server error",
+                error: err.message
+            })
+        })
+}
 exports.editUserData = async (req, res) => {
     try {
         const userId = req.user.id;
