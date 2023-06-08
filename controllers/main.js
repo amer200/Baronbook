@@ -22,7 +22,7 @@ exports.getAllMainCategs = (req, res) => {
 }
 exports.getMainCategById = (req, res) => {
     const id = req.params.id;
-    Maincateg.findByIdI(id)
+    Maincateg.findById(id)
         .then(m => {
             res.status(200).json({
                 data: m

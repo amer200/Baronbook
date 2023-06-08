@@ -4,7 +4,7 @@ const mainController = require("../controllers/main");
 routes.get("/all-main-categs", mainController.getAllMainCategs);
 routes.get("/main-categ-by-id/:id", mainController.getMainCategById);
 routes.get("/all-sub-categs", mainController.getAllSubCategs);
-routes.get("get-sub-categ-by-id/:id", mainController.getSubCategById);
+routes.get("/get-sub-categ-by-id/:id", mainController.getSubCategById);
 routes.get("/get-subs-by-main/:mainId", mainController.getSubsByMain);
 routes.get("/all-books", mainController.getAllBooks);
 routes.get("/get-books-by-sub/:subId", mainController.getBooksBySub);
