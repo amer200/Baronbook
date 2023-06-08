@@ -63,6 +63,13 @@ method = get
 response{
     data: []
 }
+/***********
+5)get user data (token is required)
+url = http://localhost:5000/user/user-data
+method = get
+response{
+    data: user
+}
 /*******************admin********************************/
 1)login 
 url = http://localhost:5000/admin/login
@@ -200,4 +207,18 @@ url = http://localhost:5000/all-books
 method = get
 response{
     data: []
+}
+/**********
+8)get main categ by id
+url = http://localhost:5000/main-categ-by-id/{id}
+method = get
+response{
+    data: {}
+}
+/***********
+9) get sub categ by id
+url = http://localhost:5000/get-sub-categ-by-id/{id}
+method = get
+response{
+    data: {}
 }
