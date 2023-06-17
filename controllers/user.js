@@ -60,8 +60,7 @@ exports.logIn = (req, res) => {
                     }, process.env.ACCESS_TOKEN);
                     res.status(200).json({
                         msg: "ok",
-                        token: token,
-                        id: user.id
+                        token: token
                     })
                 } else {
                     res.status(400).json({
