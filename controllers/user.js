@@ -9,11 +9,12 @@ exports.signUp = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         const gender = req.body.gender;
-        const birthdate = {
-            day: req.body.day,
-            month: req.body.month,
-            year: req.body.year
-        }
+        const birthdate = req.body.birthdate
+        // const birthdate = {
+        //     day: req.body.day,
+        //     month: req.body.month,
+        //     year: req.body.year
+        // }
         const isEmailFound = await User.findOne({ email: email });
         if (isEmailFound) {
             return res.status(400).json({
@@ -27,7 +28,7 @@ exports.signUp = async (req, res) => {
             email: email,
             gender: gender,
             books: [],
-            birthdate: birthdate
+            birthdate: new Date(birthdate)
         })
         u.save()
             .then(u => {
@@ -104,11 +105,12 @@ exports.editUserData = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         const gender = req.body.gender;
-        const birthdate = {
-            day: req.body.day,
-            month: req.body.month,
-            year: req.body.year
-        }
+        const birthdate = req.body.birthdate;
+        // const birthdate = {
+        //     day: req.body.day,
+        //     month: req.body.month,
+        //     year: req.body.year
+        // }
         const myUser = await User.findById(userId);
         const userByMail = await User.findOne({ email: email });
         if (userByMail) {
