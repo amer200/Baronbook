@@ -222,3 +222,20 @@ method = get
 response{
     data: {}
 }
+/*************
+10)edit sub
+url = http://localhost:5000/admin/edit-sub
+method= post
+body{
+    "id": "" required
+    "name": "subtest1", required
+    "mainIds": ["",""] required
+}
+/****************
+11) delete-subCategory
+url = http://localhost:5000/admin/delete-sub/:id
+method= get
+/****************
+12) delete-mainCateg
+url = http://localhost:5000/admin/delete-main/:id
+method= get

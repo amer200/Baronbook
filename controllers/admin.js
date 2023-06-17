@@ -3,6 +3,7 @@ const Maincateg = require("../models/maincateg");
 const Subcateg = require("../models/subcateg");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const { date } = require("joi");
 exports.logIn = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -110,7 +111,6 @@ exports.addSubCateg = async (req, res) => {
 }
 exports.editMainCateg = async (req, res) => {
     try {
-        console.log(req.body)
         const name = req.body.name;
         const img = req.file;
         const id = req.body.id;
@@ -137,6 +137,64 @@ exports.editMainCateg = async (req, res) => {
             error: err
         })
     }
+}
+exports.detleteMainCateg = async (req, res) => {
+    const id = req.params.id;
+    Maincateg.findByIdAndDelete(id)
+        .then(m => {
+            res.status(200).json({
+                msg: "ok"
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+}
+exports.editSubCateg = (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const mainIds = req.body.mainIds; // array
+    if (!name || mainIds) {
+        return res.status(400).json({
+            error: "name and mainIds not found"
+        })
+    }
+    Subcateg.findById(id)
+        .then(s => {
+            s.name = name;
+            s.mainCateg = mainIds;
+            return s.save()
+        })
+        .then(s => {
+            res.status(200).json({
+                msg: "ok",
+                data: s
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+}
+exports.detleteSubCateg = (req, res) => {
+    const id = req.params.id;
+    Subcateg.findByIdAndDelete(id)
+        .then(s => {
+            res.status(200).json({
+                msg: "ok"
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
 }
 /**************************************************************************************************** */
 // using promises
