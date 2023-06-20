@@ -157,7 +157,7 @@ exports.editSubCateg = (req, res) => {
     const id = req.body.id;
     const name = req.body.name;
     const mainIds = req.body.mainIds; // array
-    if (!name || mainIds) {
+    if (!name || !mainIds.length) {
         return res.status(400).json({
             error: "name and mainIds not found"
         })

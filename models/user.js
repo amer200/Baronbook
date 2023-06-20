@@ -6,10 +6,6 @@ const userSchema = mongoose.Schema({
     email: String,
     gender: String,
     books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
-    birthdate: {
-        day: String,
-        month: String,
-        year: String
-    }
+    birthdate: Date
 })
 module.exports = mongoose.model("User", userSchema);
