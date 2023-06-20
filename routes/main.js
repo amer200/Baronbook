@@ -10,4 +10,5 @@ routes.get("/all-books", mainController.getAllBooks);
 routes.get("/get-books-by-sub/:subId", mainController.getBooksBySub);
 routes.get("/get-book-by-id/:bId", mainController.getBookById);
 routes.get("/get-books-by-main/:mainId", mainController.getBooksByMain);
+routes.get("/day-famous-books", mainController.getDayBooks);
 module.exports = routes;

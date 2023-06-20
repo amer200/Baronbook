@@ -8,6 +8,7 @@ const port = process.env.PORT;
 const cors = require('cors');
 const morgan = require('morgan')
 const multer = require('multer');
+const cron = require('node-cron');
 // const jwt = require("jsonwebtoken");
 // const session = require('express-session');
 // const MongoDBStore = require('connect-mongodb-session')(session);
@@ -60,6 +61,16 @@ const mainRouters = require("./routes/main");
 app.use("/", mainRouters);
 app.use("/user", userRoutes);
 app.use("/admin", adminRouters);
+/********************************************************************************* */
+const Daybook = require("./models/day-books");
+const Daycron = {
+    run: function () {
+        cron.schedule('* * * * *', async () => {
+            await Daybook.drop();
+        })
+    }
+};
+Daycron.run(); // run every midnight
 /********************************************************************************* */
 mongoose.connect(dbUrl)
     .then(resu => {

@@ -239,3 +239,7 @@ method= get
 12) delete-mainCateg
 url = http://localhost:5000/admin/delete-main/:id
 method= get
+/*************
+13) get day-famous-books
+url = http://localhost:5000/day-famous-books
+method = get

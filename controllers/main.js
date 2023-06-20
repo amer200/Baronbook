@@ -3,7 +3,8 @@ const User = require("../models/user");
 const Maincateg = require("../models/maincateg");
 const Subcateg = require("../models/subcateg");
 const subcateg = require("../models/subcateg");
-
+const Daybook = require("../models/day-books");
+const dayBooks = require("../models/day-books");
 /***categs */
 exports.getAllMainCategs = (req, res) => {
     Maincateg.find()
@@ -126,9 +127,24 @@ exports.getBookById = (req, res) => {
     const bId = req.params.bId;
     Book.findById(bId)
         .then(b => {
-            res.status(200).json({
-                data: b
-            })
+            Daybook.findOne({ book: b._id })
+                .then(bd => {
+                    if (!bd) {
+                        const dayBook = new Daybook({
+                            book: b._id
+                        })
+                        dayBook.save()
+                            .then(d => {
+                                res.status(200).json({
+                                    data: b
+                                })
+                            })
+                    } else {
+                        res.status(200).json({
+                            data: b
+                        })
+                    }
+                })
         })
         .catch(err => {
             console.log(err)
@@ -164,6 +180,18 @@ exports.getBooksByMain = (req, res) => {
                         data: myBooks
                     })
                 })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+exports.getDayBooks = (req, res) => {
+    Daybook.find()
+        .populate("book")
+        .then(books => {
+            res.status(200).json({
+                data: books
+            })
         })
         .catch(err => {
             console.log(err)
